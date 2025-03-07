@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<h1>سنڌي ڪيلڪوليٽر</h1>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sindhi Calculator</title>
+    <style>
+        h1{
+            margin-top: 10px;
+            margin-right: 5px;
+            margin-left: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            color: white;
+            font-size: 50px;
+            font-family: Arial, sans-serif;
+            background-color: green;
+            padding: 10px;
+            border-radius: 10px;;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: yellowgreen;
+        }
+        .calculator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .display {
+            width: 100%;
+            height: 50px;
+            background-color: whitesmoke;
+            color:black;
+            text-align: right;
+            padding: 10px;
+            font-size: 24px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .button {
+            padding: 20px;
+            background-color: #eee;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #ddd;
+        }
+        .button.operator {
+            background-color: green;
+            color: #fff;
+        }
+        .button.operator:hover {
+            background-color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="button" onclick="appendNumber('7')">۷</button>
+            <button class="button" onclick="appendNumber('8')">۸</button>
+            <button class="button" onclick="appendNumber('9')">۹</button>
+            <button class="button operator" onclick="chooseOperation('/')">÷</button>
+            <button class="button" onclick="appendNumber('4')">۴</button>
+            <button class="button" onclick="appendNumber('5')">۵</button>
+            <button class="button" onclick="appendNumber('6')">۶</button>
+            <button class="button operator" onclick="chooseOperation('*')">×</button>
+            <button class="button" onclick="appendNumber('1')">۱</button>
+            <button class="button" onclick="appendNumber('2')">۲</button>
+            <button class="button" onclick="appendNumber('3')">۳</button>
+            <button class="button operator" onclick="chooseOperation('-')">-</button>
+            <button class="button" onclick="appendNumber('0')">۰</button>
+            <button class="button" onclick="clearDisplay()">صاف</button>
+            <button class="button" onclick="calculate()">برابر</button>
+            <button class="button operator" onclick="chooseOperation('+')">+</button>
+    
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentOperand = '';
+        let previousOperand = '';
+        let operation = undefined;
+
+        function appendNumber(number) {
+            if (currentOperand.includes('.') && number === '.') return;
+            currentOperand = currentOperand.toString() + number.toString();
+            updateDisplay();
+        }
+
+        function chooseOperation(op) {
+            if (currentOperand === '') return;
+            if (previousOperand !== '') {
+                calculate();
+            }
+            operation = op;
+            previousOperand = currentOperand;
+            currentOperand = '';
+        }
+
+        function calculate() {
+            let result;
+            const prev = parseFloat(previousOperand);
+            const current = parseFloat(currentOperand);
+            if (isNaN(prev) || isNaN(current)) return;
+            switch (operation) {
+                case '+':
+                    result = prev + current;
+                    break;
+                case '-':
+                    result = prev - current;
+                    break;
+                case '*':
+                    result = prev * current;
+                    break;
+                case '/':
+                    result = prev / current;
+                    break;
+                default:
+                    return;
+            }
+            currentOperand = result;
+            operation = undefined;
+            previousOperand = '';
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            currentOperand = '';
+            previousOperand = '';
+            operation = undefined;
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            display.innerText = currentOperand;
+        }
+
+        clearDisplay();
+        function convertToSindhi(number) {
+            const sindhiNumbers = {
+                '0': '۰',
+                '1': '۱',
+                '2': '۲',
+                '3': '۳',
+                '4': '۴',
+                '5': '۵',
+                '6': '۶',
+                '7': '۷',
+                '8': '۸',
+                '9': '۹'
+            };
+            return number.toString().split('').map(digit => sindhiNumbers[digit] || digit).join('');
+        }
+
+        function updateDisplay() {
+            display.innerText = convertToSindhi(currentOperand);
+        }
+        function deleteNumber() {
+            currentOperand = currentOperand.toString().slice(0, -1);
+            updateDisplay();
+        }
+     
+    </script>
+</body>
+</html>

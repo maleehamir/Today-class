@@ -1,0 +1,29 @@
+<html>
+    <body>
+        <h1>INHERITANCE JAVA SCRIPT</h1>
+        <p id="details"></p>
+        <p id="greetings"></p>
+        <script>
+        class Student{
+            constructor(name) {
+                this.studentName = Maleeha ;
+            }
+            static hello(){
+                return "Hello";
+            }
+            present(){
+                return 'My name is' + this.studentName;
+            }
+        }
+        class Grade extends  Student{
+            constructor(name, grade) {
+                super(name);
+                this.studentGrade = grade;
+            }
+            shown(){
+                return this.present()+ ' , from' + this.studentGrade;
+            }
+        }
+        </script>
+    </body>
+</html>
